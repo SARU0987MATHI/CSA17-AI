@@ -1,0 +1,63 @@
+from collections import deque
+
+goal = [[1,2,3],
+        [4,5,6],
+        [7,8,0]]
+
+def find_blank(state):
+    for i in range(3):
+        for j in range(3):
+            if state[i][j] == 0:
+                return i, j
+
+def move(state, x, y, nx, ny):
+    new = [row[:] for row in state]
+    new[x][y], new[nx][ny] = new[nx][ny], new[x][y]
+    return new
+
+def bfs(start):
+    queue = deque([(start, [])])
+    visited = set()
+
+    while queue:
+        state, path = queue.popleft()
+
+        if state == goal:
+            return path + [state]
+
+        state_tuple = tuple(map(tuple, state))
+        if state_tuple in visited:
+            continue
+
+        visited.add(state_tuple)
+
+        x, y = find_blank(state)
+
+        directions = [(-1,0),(1,0),(0,-1),(0,1)]
+
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+
+            if 0 <= nx < 3 and 0 <= ny < 3:
+                new_state = move(state, x, y, nx, ny)
+                queue.append((new_state, path + [state]))
+
+    return None
+
+# Input
+print("Enter the initial state (use 0 for blank):")
+start = []
+for i in range(3):
+    row = list(map(int, input().split()))
+    start.append(row)
+
+result = bfs(start)
+
+if result:
+    print("\nSolution Found:\n")
+    for step in result:
+        for row in step:
+            print(row)
+        print()
+else:
+    print("No Solution Exists")
