@@ -1,0 +1,34 @@
+# Vacuum Cleaner Problem
+
+# Input
+left = int(input("Enter Left Room Status (1=Dirty, 0=Clean): "))
+right = int(input("Enter Right Room Status (1=Dirty, 0=Clean): "))
+position = input("Enter Vacuum Position (L/R): ").upper()
+
+print("\nActions:")
+
+while True:
+    if position == "L":
+        if left == 1:
+            print("Clean Left Room")
+            left = 0
+        else:
+            print("Left Room is Already Clean")
+
+        print("Move Right")
+        position = "R"
+
+    elif position == "R":
+        if right == 1:
+            print("Clean Right Room")
+            right = 0
+        else:
+            print("Right Room is Already Clean")
+
+        print("Move Left")
+        position = "L"
+
+    if left == 0 and right == 0:
+        print("\nGoal Achieved!")
+        print("Both Rooms are Clean.")
+        break
